@@ -1,10 +1,16 @@
 import React from 'react';
 
-function ToDoItem() {
+var c = 1;
+
+function ToDoItem(props) {
     return (
         <div className="todo-item"> 
-            <input type="checkbox" />
-            <label>First Name</label>
+            <input 
+                type="checkbox" 
+                checked={props.item.completed} 
+                onChange={() => props.handleChange(props.item.id, c++)} 
+            />
+            <p>{props.item.text}</p>
         </div>
     );
 

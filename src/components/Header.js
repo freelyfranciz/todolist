@@ -2,7 +2,7 @@ import React from 'react';
 
 function Navbar() {
     return (
-        <header className="navbar">This the header</header>
+        <header className="navbar">To Do List</header>
     );
 }
 
