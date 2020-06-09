@@ -1,26 +1,25 @@
 import React, { Component } from 'react';
 
 class Footer extends Component {
-    constructor(){
+    constructor() {
         super();
         this.state = {
-            count: 0
+            isLoggedIn: "false"
         }
         this.handleClick = this.handleClick.bind(this);
     }
 
-    handleClick(){
+    handleClick() {
         this.setState((prevState) => {
-            return{
-                count: prevState.count+1
-            }
-        });    
+            return { isLoggedIn: !prevState.isLoggedIn }
+        });
     }
+
     render() {
         return (
             <footer>
-                <h1>{this.state.count}</h1>
-                <button onClick={this.handleClick}>Change</button>
+                <p>{this.state.isLoggedIn ? "You are logged in" : "You are logged out"}</p>
+                <button onClick={this.handleClick}>{this.state.isLoggedIn ? "log in" : "log out"}</button>
             </footer>
         );
     }
