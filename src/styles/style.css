@@ -35,3 +35,9 @@ body{
  input[type=checkbox]{
      margin-right: 10px;
  }
+ 
+ footer {
+     height: 20px;
+     width:auto;
+     background-color: gray;
+ }
