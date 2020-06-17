@@ -1,63 +1,62 @@
 import React, { Component } from "react";
 import ToDoItem from './ToDoItem';
-import todosData from '../shared/todosData';
+import { connect } from 'react-redux';
+import { fetchTodo, postTodo, updateTodo, removeItem } from '../action/todoData.action';
+
+const mapStateToProps = (state) => {
+  return {
+    todo: state.todo
+  }
+}
+
+const mapDispacthToProps = (dispatch) => ({
+  fetchTodo: () => { dispatch(fetchTodo()) },
+  postTodo: (value) => { dispatch(postTodo(value)) },
+  updateTodo: (id, text, completed) => { dispatch(updateTodo(id,text, completed)) },
+  removeItem: (item) => {dispatch(removeItem(item))}
+})
 
 class MainContent extends Component {
   constructor() {
     super();
     this.state = {
-      todos: todosData,
       value: ''
     }
-    this.handleChange = this.handleChange.bind(this);
-    this.updateItem = this.updateItem.bind(this);
+    this.handleValueChange = this.handleValueChange.bind(this);
     this.handleAddItem = this.handleAddItem.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleClose = this.handleClose.bind(this);
   }
 
-  handleChange(id) {
-    this.setState(prevState => {
-      const updatedTodos = prevState.todos.map(todo => {
-        if (todo.id === id) {
-          todo.completed = !todo.completed;
-        }
-        return todo;
-      });
-      return {
-        todos: updatedTodos
-      }
-    })
-  }
-
-  updateItem(evt) {
+  handleValueChange(evt) {
     this.setState({
-        value: evt.target.value
-      });
+      value: evt.target.value
+    });
+  }
+
+  componentDidMount() {
+    this.props.fetchTodo();
+  }
+
+  handleChange(id, text, completed) {
+    this.props.updateTodo(id, text, completed);
   }
 
   handleAddItem() {
-  
-   this.setState((prevState) => {
-    const newTodos = [...prevState.todos, {
-      id: Object.keys(prevState.todos).length + 1,
-      text: this.state.value,
-      completed: false
-    }];
+    this.props.postTodo(this.state.value);
+  }
 
-    
-    console.log(newTodos);
-    return {todos : newTodos};
-   });
-
-
+  handleClose(item) {
+    this.props.removeItem(item);
   }
 
   render() {
-    const todoitems = this.state.todos.map((item) =>
-      <ToDoItem key={item.id} item={item} handleChange={this.handleChange} />)
+    const todoitems = this.props.todo.map((item) =>
+      <ToDoItem key={item.id} item={item} handleChange={this.handleChange} handleClose={this.handleClose}/>)
     return (
       <div>
-        <input type="text" placeholder="Enter item" onChange={this.updateItem} />        
-        <button  onClick={this.handleAddItem}>Add</button>
+        <input type="text" placeholder="Enter item" onChange={this.handleValueChange} />
+        <button onClick={this.handleAddItem}>Add</button>
         {todoitems}
       </div>
     );
@@ -65,4 +64,4 @@ class MainContent extends Component {
 
 }
 
-export default MainContent;
+export default connect(mapStateToProps, mapDispacthToProps)(MainContent);

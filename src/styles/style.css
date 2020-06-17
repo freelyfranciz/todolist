@@ -1,5 +1,5 @@
 body{
-    background-color: floralwhite;
+    background-color: white;
     display: flex;
     width: 50%;
     margin: auto;
@@ -40,4 +40,9 @@ body{
      height: 20px;
      width:auto;
      background-color: gray;
+ }
+ .btnClose{
+     margin-left: 10px;
+     border: none;
+     background-color: white;
  }
